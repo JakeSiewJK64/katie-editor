@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageElement } from 'editor';
+import { ImageElement } from 'editor/types';
 import { LuMinus, LuPlus, LuTrash } from 'react-icons/lu';
 import { Transforms } from 'slate';
 import {
