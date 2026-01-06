@@ -1,7 +1,7 @@
 import { LuBold, LuRedo, LuUndo } from 'react-icons/lu';
 import { HistoryEditor } from 'slate-history';
 
-import { CustomEditorHelper } from './utils';
+import { cn, CustomEditorHelper } from './utils';
 
 import type { ReactEditor } from 'slate-react';
 
@@ -20,18 +20,30 @@ export function Toolbar({ editor }: ToolbarProps) {
         <LuBold />
       </button>
       <button
+        disabled={editor.history.undos.length === 0}
         title="Undo"
-        className="cursor-pointer p-1 hover:bg-slate-300"
+        className={cn(
+          'p-1',
+          editor.history.undos.length === 0
+            ? 'cursor-not-allowed hover:bg-slate-50'
+            : 'cursor-pointer hover:bg-slate-300',
+        )}
         onClick={() => editor.undo()}
       >
-        <LuUndo />
+        <LuUndo color={editor.history.undos.length === 0 ? 'gray' : 'black'} />
       </button>
       <button
+        disabled={editor.history.redos.length === 0}
         title="Redo"
-        className="cursor-pointer p-1 hover:bg-slate-300"
+        className={cn(
+          'p-1',
+          editor.history.redos.length === 0
+            ? 'cursor-not-allowed hover:bg-slate-50'
+            : 'cursor-pointer hover:bg-slate-300',
+        )}
         onClick={() => editor.redo()}
       >
-        <LuRedo />
+        <LuRedo color={editor.history.redos.length === 0 ? 'gray' : 'black'} />
       </button>
     </div>
   );
