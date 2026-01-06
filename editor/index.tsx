@@ -1,56 +1,14 @@
 import React from 'react';
-import { BaseEditor, createEditor, Descendant, Transforms } from 'slate';
+import { EditorProps, ImageElement } from 'editor/types';
+import { createEditor, Transforms } from 'slate';
 import { withHistory } from 'slate-history';
-import { Editable, ReactEditor, Slate, withReact } from 'slate-react';
+import { Editable, Slate, withReact } from 'slate-react';
 
 import { CustomEditorLeaf, CustomEditorRenderElement } from './editorElements';
 import { Toolbar } from './toolbar';
 import { cn, CustomEditorHelper, serializeHtml } from './utils';
 
 import type { Path } from 'slate';
-
-export type CustomEditorElementType = 'paragraph' | 'code' | 'image';
-
-export type CustomEditorElementBase = {
-  children: CustomEditorTextElement[];
-};
-
-export type StandardElement = CustomEditorElementBase & {
-  type: 'code' | 'paragraph';
-};
-
-export type ImageElement = CustomEditorElementBase & {
-  type: 'image';
-  url: string;
-  width?: number;
-};
-
-export type CustomEditorElement = ImageElement | StandardElement;
-
-export type CustomEditorTextElement = { text?: string; bold?: boolean };
-
-declare module 'slate' {
-  interface CustomTypes {
-    Editor: BaseEditor & ReactEditor;
-    Element: CustomEditorElement;
-    Text: CustomEditorTextElement;
-  }
-}
-
-type JSONExportMode = {
-  mode: 'json';
-  onSave?: (value: Descendant[]) => void;
-};
-
-type HTMLExportMode = {
-  mode: 'html';
-  onSave?: (value: string) => void;
-};
-
-type EditorProps = React.HTMLAttributes<HTMLDivElement> &
-  (JSONExportMode | HTMLExportMode) & {
-    initialValue: Descendant[];
-  };
 
 export function RichTextEditor({
   initialValue,
