@@ -192,6 +192,24 @@ function breakdownElements(
   }
 }
 
+/**
+ * Converts a raw HTML string into a JSON-compatible `Descendant` array
+ * that can be consumed by a Slate.js editor.
+ * * @remarks
+ * This function uses the browser's `DOMParser` to navigate the HTML tree.
+ * If an empty string is provided, it defaults to a single empty paragraph
+ * to maintain editor stability.
+ *
+ * @param htmlString - The raw HTML markup to be deserialized.
+ * @returns An array of Slate `Descendant` objects (Elements or Text nodes).
+ * * @example
+ * ```ts
+ * const slateValue = deserialize('<p>Hello <b>World</b></p>');
+ * // Returns: [{ type: 'paragraph', children: [{ text: 'Hello ' }, { text: 'World', bold: true }] }]
+ * ```
+ * * @throws Will catch and log errors during the breakdown process,
+ * returning a fallback empty text node to prevent editor crashes.
+ */
 export function deserialize(htmlString: string): Descendant[] {
   const htmlElement = new DOMParser().parseFromString(
     htmlString.length === 0 ? '<p></p>' : htmlString,
