@@ -13,7 +13,7 @@ function DeserializeHtml() {
   );
 
   return (
-    <div className="w-[25rem] rounded border p-2">
+    <div className="w-full rounded border p-2">
       <h2 className="text-xl">Deserialize HTML</h2>
       <p className="text-sm text-slate-600">
         Deserializes html to JSON which is readable by slate editor.
@@ -39,7 +39,7 @@ function SerializeHtml() {
   );
 
   return (
-    <div className="w-[25rem] rounded border p-2">
+    <div className="w-full rounded border p-2">
       <h2 className="text-xl">Serialize HTML</h2>
       <p className="text-sm text-slate-600">Serializes JSON to HTML.</p>
       <RichTextEditor
