@@ -7,7 +7,7 @@ import type {
   CustomEditorElementType,
   CustomEditorTextElement,
   ImageElement,
-} from '.';
+} from './types';
 import type { ClassValue } from 'clsx';
 import type { Descendant, Node as SlateNode } from 'slate';
 import type { ReactEditor } from 'slate-react';
@@ -32,6 +32,10 @@ export const CustomEditorHelper = {
   isBoldMarkActive(editor: ReactEditor) {
     const marks = Editor.marks(editor);
     return marks ? marks.bold : false;
+  },
+  isUnderscoreMarkActive(editor: ReactEditor) {
+    const marks = Editor.marks(editor);
+    return marks ? marks.underscore : false;
   },
   isCodeBlockActive(editor: ReactEditor) {
     const [match] = getNodeEntries(editor, 'code');
@@ -59,6 +63,16 @@ export const CustomEditorHelper = {
 
     editor.addMark('bold', true);
   },
+  toggleUnderscoreMark(editor: ReactEditor) {
+    const isActive = CustomEditorHelper.isUnderscoreMarkActive(editor);
+
+    if (isActive) {
+      editor.removeMark('underscore');
+      return;
+    }
+
+    editor.addMark('underscore', true);
+  },
   insertImage(editor: ReactEditor, url: string, width?: number) {
     const image: SlateNode & ImageElement = {
       type: 'image',
@@ -74,11 +88,26 @@ export const CustomEditorHelper = {
   },
 };
 
+/**
+ * Converts a Slate `Descendant` node into a valid HTML string.
+ * * This function handles the recursive transformation of Slate nodes, supporting:
+ * - **Leaf formatting**: Bold (`<strong>`) and Underscore (`<u>`).
+ * - **Element types**: Code blocks (`<pre><code>`), Images (`<img>`), and Paragraphs (`<p>`).
+ * * @param node - The Slate node to be serialized. Can be an `Element` or `Text`.
+ * @returns A string of serialized HTML. Returns an empty string if the node is not a valid element.
+ * * @example
+ * ```typescript
+ * const node = { type: 'code', children: [{ text: 'const x = 10;', bold: true }] };
+ * const html = serializeHtml(node);
+ * // Result: <pre><code><strong>const x = 10;</strong></code></pre>
+ * ```
+ */
 export function serializeHtml(node: Descendant): string {
   if (!Element.isElement(node)) {
     return '';
   }
 
+  // for basic html elements
   const children: string = node.children
     .map(n => {
       if (Text.isText(n)) {
@@ -88,11 +117,18 @@ export function serializeHtml(node: Descendant): string {
           str = `<strong>${str}</strong>`;
         }
 
+        if (n.underscore) {
+          str = `<u>${str}</u>`;
+        }
+
         return str;
       }
+
+      return '';
     })
     .join('');
 
+  // for more complex node types, meant for complex nested tags.
   switch (node.type) {
     case 'code':
       return `<pre><code>${children}</code></pre>`;

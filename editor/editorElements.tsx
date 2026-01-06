@@ -13,11 +13,26 @@ import { cn } from './utils';
 
 import type { RenderElementProps, RenderLeafProps } from 'slate-react';
 
+/**
+ * Renders individual leaf nodes within the editor text content.
+ * * This component handles the visual representation of "leaves"—the smallest
+ * units of text that share the same formatting. It specifically manages
+ * boolean formatting marks like bolding.
+ *
+ * @param props - The properties provided by the editor's rendering engine.
+ * @param props.attributes - Essential DOM attributes (like `data-slate-leaf`) required for editor functionality.
+ * @param props.leaf - The custom text properties defined in your schema (e.g., `bold`, `italic`).
+ * @param props.children - The actual text content to be rendered.
+ * @returns JSX element
+ */
 export function CustomEditorLeaf(props: RenderLeafProps) {
   return (
     <span
       {...props.attributes}
-      className={cn(props.leaf.bold ? 'font-bold' : 'font-normal')}
+      className={cn(
+        props.leaf.bold && 'font-bold',
+        props.leaf.underscore && 'underline',
+      )}
     >
       {props.children}
     </span>

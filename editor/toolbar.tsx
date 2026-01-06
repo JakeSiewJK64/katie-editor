@@ -1,4 +1,4 @@
-import { LuBold, LuRedo, LuUndo } from 'react-icons/lu';
+import { LuBold, LuRedo, LuUnderline, LuUndo } from 'react-icons/lu';
 import { HistoryEditor } from 'slate-history';
 
 import { cn, CustomEditorHelper } from './utils';
@@ -14,10 +14,23 @@ export function Toolbar({ editor }: ToolbarProps) {
     <div className="mb-2 flex flex-row rounded border border-slate-300 p-1">
       <button
         title="Bold"
-        className="cursor-pointer p-1 hover:bg-slate-300"
+        className={cn(
+          'cursor-pointer p-1 hover:bg-slate-300',
+          CustomEditorHelper.isBoldMarkActive(editor) && 'bg-slate-300',
+        )}
         onClick={() => CustomEditorHelper.toggleBoldMark(editor)}
       >
         <LuBold />
+      </button>
+      <button
+        title="Underscore"
+        className={cn(
+          'cursor-pointer p-1 hover:bg-slate-300',
+          CustomEditorHelper.isUnderscoreMarkActive(editor) && 'bg-slate-300',
+        )}
+        onClick={() => CustomEditorHelper.toggleUnderscoreMark(editor)}
+      >
+        <LuUnderline />
       </button>
       <button
         disabled={editor.history.undos.length === 0}
