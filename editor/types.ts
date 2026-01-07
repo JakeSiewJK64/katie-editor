@@ -31,6 +31,7 @@ export type CustomEditorTextElement = {
   text?: string;
   bold?: boolean;
   underscore?: boolean;
+  code?: boolean;
 };
 
 export type JSONExportMode = {

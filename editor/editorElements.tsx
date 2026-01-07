@@ -32,6 +32,7 @@ export function CustomEditorLeaf(props: RenderLeafProps) {
       className={cn(
         props.leaf.bold && 'font-bold',
         props.leaf.underscore && 'underline',
+        props.leaf.code && 'text-xs text-red-600',
       )}
     >
       {props.children}

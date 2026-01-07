@@ -4,25 +4,13 @@ import { twMerge } from 'tailwind-merge';
 
 import { deserialize } from './deserialize';
 
-import type { CustomEditorElementType, ImageElement } from '../types';
+import type { ImageElement } from '../types';
 import type { ClassValue } from 'clsx';
 import type { Descendant, Node as SlateNode } from 'slate';
 import type { ReactEditor } from 'slate-react';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
-}
-
-function getNodeEntries(
-  editor: ReactEditor,
-  nodeType: CustomEditorElementType,
-) {
-  // determine whether any of the currently selected blocks are code blocks.
-  return editor.nodes({
-    match(node): node is Element {
-      return Element.isElement(node) && node.type === nodeType;
-    },
-  });
 }
 
 export const CustomEditorHelper = {
@@ -35,20 +23,18 @@ export const CustomEditorHelper = {
     return marks ? marks.underscore : false;
   },
   isCodeBlockActive(editor: ReactEditor) {
-    const [match] = getNodeEntries(editor, 'code');
-    return !!match;
+    const marks = Editor.marks(editor);
+    return marks ? marks.code : false;
   },
   toggleCodeBlock(editor: ReactEditor) {
     const isActive = CustomEditorHelper.isCodeBlockActive(editor);
-    Transforms.setNodes(
-      editor,
-      { type: isActive ? 'paragraph' : 'code' },
-      {
-        match: node => {
-          return Element.isElement(node) && editor.isBlock(node);
-        },
-      },
-    );
+
+    if (isActive) {
+      editor.removeMark('code');
+      return;
+    }
+
+    editor.addMark('code', true);
   },
   toggleBoldMark(editor: ReactEditor) {
     const isActive = CustomEditorHelper.isBoldMarkActive(editor);
@@ -118,6 +104,10 @@ export function serializeHtml(node: Descendant): string {
           str = `<u>${str}</u>`;
         }
 
+        if (n.code) {
+          str = `<pre><code>${str}</code></pre>`;
+        }
+
         return str;
       }
 
@@ -127,8 +117,6 @@ export function serializeHtml(node: Descendant): string {
 
   // for more complex node types, meant for complex nested tags.
   switch (node.type) {
-    case 'code':
-      return `<pre><code>${children}</code></pre>`;
     case 'image':
       return `<img src=${node.url} width="${node.width}" />`;
     default:

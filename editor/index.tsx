@@ -93,6 +93,9 @@ export function RichTextEditor({
               CustomEditorHelper.toggleCodeBlock(editor);
               break;
             }
+            case 'u':
+              CustomEditorHelper.toggleUnderscoreMark(editor);
+              break;
             case 'y':
               editor.redo();
               break;
