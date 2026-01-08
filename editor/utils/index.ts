@@ -55,7 +55,7 @@ export const CustomEditorHelper = {
 
     editor.addMark('underscore', true);
   },
-  insertImage(editor: ReactEditor, url: string, width?: number) {
+  insertImage(editor: ReactEditor, url: string, width: number) {
     Transforms.insertNodes(editor, {
       type: 'image',
       url,
