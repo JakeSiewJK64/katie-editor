@@ -19,6 +19,10 @@ import type { RenderElementProps, RenderLeafProps } from 'slate-react';
  * units of text that share the same formatting. It specifically manages
  * boolean formatting marks like bolding.
  *
+ * To quote Slate.js docs:
+ *
+ * `A "leaf" in Slate is the smallest chunk of text and its associated formatting attributes.`
+ *
  * @param props - The properties provided by the editor's rendering engine.
  * @param props.attributes - Essential DOM attributes (like `data-slate-leaf`) required for editor functionality.
  * @param props.leaf - The custom text properties defined in your schema (e.g., `bold`, `italic`).
