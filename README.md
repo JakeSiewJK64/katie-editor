@@ -5,7 +5,7 @@ This is a personal project to create a custom rich text editor for React using S
 # Roadmap
 
 ## Simple, low cost:
-- [ ] Headings (H1, H2, H3):
+- [x] Headings (H1, H2, H3):
 - [ ] Lists (Bulleted & Numbered)
 - [ ] Links
 - [ ] Blockquotes

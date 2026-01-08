@@ -29,6 +29,14 @@ export function serializeHtml(node: Descendant): string {
       if (Text.isText(n)) {
         let str = n.text;
 
+        if (n.heading1) {
+          str = `<h1>${str}</h1>`;
+        } else if (n.heading2) {
+          str = `<h2>${str}</h2>`;
+        } else if (n.heading3) {
+          str = `<h3>${str}</h3>`;
+        }
+
         if (n.bold) {
           str = `<strong>${str}</strong>`;
         }

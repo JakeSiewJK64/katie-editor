@@ -13,6 +13,18 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const CustomEditorHelper = {
+  isHeading1Active(editor: ReactEditor) {
+    const marks = Editor.marks(editor);
+    return marks ? marks.heading1 : false;
+  },
+  isHeading2Active(editor: ReactEditor) {
+    const marks = Editor.marks(editor);
+    return marks ? marks.heading2 : false;
+  },
+  isHeading3Active(editor: ReactEditor) {
+    const marks = Editor.marks(editor);
+    return marks ? marks.heading3 : false;
+  },
   isBoldMarkActive(editor: ReactEditor) {
     const marks = Editor.marks(editor);
     return marks ? marks.bold : false;
@@ -24,6 +36,42 @@ export const CustomEditorHelper = {
   isCodeBlockActive(editor: ReactEditor) {
     const marks = Editor.marks(editor);
     return marks ? marks.code : false;
+  },
+  toggleHeading1(editor: ReactEditor) {
+    const isActive = CustomEditorHelper.isHeading1Active(editor);
+
+    if (isActive) {
+      editor.removeMark('heading1');
+      return;
+    }
+
+    editor.removeMark('heading2');
+    editor.removeMark('heading3');
+    editor.addMark('heading1', true);
+  },
+  toggleHeading2(editor: ReactEditor) {
+    const isActive = CustomEditorHelper.isHeading2Active(editor);
+
+    if (isActive) {
+      editor.removeMark('heading2');
+      return;
+    }
+
+    editor.removeMark('heading1');
+    editor.removeMark('heading3');
+    editor.addMark('heading2', true);
+  },
+  toggleHeading3(editor: ReactEditor) {
+    const isActive = CustomEditorHelper.isHeading3Active(editor);
+
+    if (isActive) {
+      editor.removeMark('heading3');
+      return;
+    }
+
+    editor.removeMark('heading1');
+    editor.removeMark('heading2');
+    editor.addMark('heading3', true);
   },
   toggleCodeBlock(editor: ReactEditor) {
     const isActive = CustomEditorHelper.isCodeBlockActive(editor);

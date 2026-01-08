@@ -1,4 +1,13 @@
-import { LuBold, LuCode, LuRedo, LuUnderline, LuUndo } from 'react-icons/lu';
+import {
+  LuBold,
+  LuCode,
+  LuHeading1,
+  LuHeading2,
+  LuHeading3,
+  LuRedo,
+  LuUnderline,
+  LuUndo,
+} from 'react-icons/lu';
 import { HistoryEditor } from 'slate-history';
 
 import { cn, CustomEditorHelper } from './utils';
@@ -12,6 +21,36 @@ type ToolbarProps = {
 export function Toolbar({ editor }: ToolbarProps) {
   return (
     <div className="mb-2 flex flex-row rounded border border-slate-300 p-1">
+      <button
+        title="Heading 1"
+        className={cn(
+          'cursor-pointer p-1 hover:bg-slate-300',
+          CustomEditorHelper.isHeading1Active(editor) && 'bg-slate-300',
+        )}
+        onClick={() => CustomEditorHelper.toggleHeading1(editor)}
+      >
+        <LuHeading1 />
+      </button>
+      <button
+        title="Heading 2"
+        className={cn(
+          'cursor-pointer p-1 hover:bg-slate-300',
+          CustomEditorHelper.isHeading2Active(editor) && 'bg-slate-300',
+        )}
+        onClick={() => CustomEditorHelper.toggleHeading2(editor)}
+      >
+        <LuHeading2 />
+      </button>
+      <button
+        title="Heading 3"
+        className={cn(
+          'cursor-pointer p-1 hover:bg-slate-300',
+          CustomEditorHelper.isHeading3Active(editor) && 'bg-slate-300',
+        )}
+        onClick={() => CustomEditorHelper.toggleHeading3(editor)}
+      >
+        <LuHeading3 />
+      </button>
       <button
         title="Code"
         className={cn(
