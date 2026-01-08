@@ -24,10 +24,10 @@ export function serializeHtml(node: Descendant): string {
   }
 
   // for basic html elements
-  const children: string = node.children
+  return node.children
     .map(n => {
       if (Text.isText(n)) {
-        let str = n.text;
+        let str = `<p>${n.text}</p>`;
 
         if (n.heading1) {
           str = `<h1>${str}</h1>`;
@@ -51,10 +51,6 @@ export function serializeHtml(node: Descendant): string {
 
         return str;
       }
-
-      return '';
     })
     .join('');
-
-  return `<p>${children}</p>`;
 }
