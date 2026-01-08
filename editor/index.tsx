@@ -75,9 +75,11 @@ export function RichTextEditor({
               e.preventDefault();
 
               const file = item.getAsFile();
+              const img = new Image();
+
               if (file) {
                 const url = URL.createObjectURL(file);
-                CustomEditorHelper.insertImage(editor, url);
+                CustomEditorHelper.insertImage(editor, url, img.naturalWidth);
               }
             }
           }
