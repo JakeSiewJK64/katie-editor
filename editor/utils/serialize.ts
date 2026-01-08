@@ -16,7 +16,11 @@ import { Descendant, Element, Text } from 'slate';
  */
 export function serializeHtml(node: Descendant): string {
   if (!Element.isElement(node)) {
-    return '';
+    return `<p>${node.text}</p>`;
+  }
+
+  if (node.type === 'image') {
+    return `<img src="${node.url}" width="${node.width}" />`;
   }
 
   // for basic html elements
@@ -44,11 +48,5 @@ export function serializeHtml(node: Descendant): string {
     })
     .join('');
 
-  // for more complex node types, meant for complex nested tags.
-  switch (node.type) {
-    case 'image':
-      return `<img src=${node.url} width="${node.width}" />`;
-    default:
-      return `<p>${children}</p>`;
-  }
+  return `<p>${children}</p>`;
 }
