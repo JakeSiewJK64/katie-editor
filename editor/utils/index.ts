@@ -4,9 +4,8 @@ import { twMerge } from 'tailwind-merge';
 
 import { deserialize } from './deserialize';
 
-import type { ImageElement } from '../types';
 import type { ClassValue } from 'clsx';
-import type { Descendant, Node as SlateNode } from 'slate';
+import type { Descendant } from 'slate';
 import type { ReactEditor } from 'slate-react';
 
 export function cn(...inputs: ClassValue[]) {
@@ -57,16 +56,15 @@ export const CustomEditorHelper = {
     editor.addMark('underscore', true);
   },
   insertImage(editor: ReactEditor, url: string, width?: number) {
-    const image: SlateNode & ImageElement = {
+    Transforms.insertNodes(editor, {
       type: 'image',
-      children: [{ text: '' }],
       url,
       width,
-    };
-    Transforms.insertNodes(editor, image);
+      children: [{ text: '' }],
+    });
     Transforms.insertNodes(editor, {
       children: [{ text: '' }],
-      type: 'paragraph',
+      type: 'text',
     });
   },
 };

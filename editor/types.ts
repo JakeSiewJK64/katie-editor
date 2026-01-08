@@ -4,28 +4,19 @@ import type { ReactEditor } from 'slate-react';
 declare module 'slate' {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor;
-    Element: CustomEditorElement;
+    Element: TextElement | ImageElement;
     Text: CustomEditorTextElement;
   }
 }
 
-export type CustomEditorElementType = 'paragraph' | 'code' | 'image';
-
-export type CustomEditorElementBase = {
-  children: CustomEditorTextElement[];
-};
-
-export type StandardElement = CustomEditorElementBase & {
-  type: 'code' | 'paragraph';
-};
-
-export type ImageElement = CustomEditorElementBase & {
+type ImageElement = {
   type: 'image';
   url: string;
   width?: number;
+  children: CustomEditorTextElement[];
 };
 
-export type CustomEditorElement = ImageElement | StandardElement;
+type TextElement = { type: 'text'; children: CustomEditorTextElement[] };
 
 export type CustomEditorTextElement = {
   text?: string;
