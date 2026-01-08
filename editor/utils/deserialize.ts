@@ -16,12 +16,6 @@ function breakdownElements(
   }
 
   const nodeAttributes = { ...attributes };
-
-  switch (element.nodeName) {
-    case 'STRONG':
-      nodeAttributes.bold = true;
-  }
-
   const children = Array.from(element.childNodes).flatMap(node =>
     breakdownElements(node, nodeAttributes),
   );
@@ -30,7 +24,11 @@ function breakdownElements(
     children.push(jsx('text', {}, ''));
   }
 
+  // the core of the deserializing engine, matches html elements
+  // to how it will be rendered inside the editor
   switch (element.nodeName) {
+    case 'STRONG':
+      return [jsx('element', { ...nodeAttributes, bold: true }, children)];
     case 'P':
       return [jsx('element', nodeAttributes, children)];
     case 'IMG':

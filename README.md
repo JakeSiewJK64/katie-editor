@@ -13,6 +13,7 @@ This is a personal project to create a custom rich text editor for React using S
 - [ ] File Attachments
 - [ ] Drag and Drop
 - [ ] Tables
+- [ ] Text alignment
 
 ## Advanced, potentially high cost: 
 - [ ] Floating/Bubble Menu: Instead of a fixed toolbar at the top, show a small menu near the text selection (like Medium or Notion).

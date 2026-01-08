@@ -1,6 +1,7 @@
+import { Descendant } from 'slate';
 import { describe, expect, it } from 'vitest';
 
-import { serializeHtml } from './utils';
+import { deserialize, serializeHtml } from './utils';
 
 describe('serialize html ', () => {
   it('should be able to serialize basic node to html string.', () => {
@@ -29,5 +30,13 @@ describe('serialize html ', () => {
     });
 
     expect(htmlString).toBe('<img src="source" width="10" />');
+  });
+});
+
+describe('deserialize html', () => {
+  it('can deserialize basic html elements.', () => {
+    expect(deserialize('<strong>something</strong>')).toStrictEqual<
+      Descendant[]
+    >([{ bold: true, children: [{ text: 'something' }] }]);
   });
 });
