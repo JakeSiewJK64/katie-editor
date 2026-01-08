@@ -9,14 +9,14 @@ declare module 'slate' {
   }
 }
 
-type ImageElement = {
+export type ImageElement = {
   type: 'image';
   url: string;
-  width?: number;
+  width: number;
   children: CustomEditorTextElement[];
 };
 
-type TextElement = { type: 'text'; children: CustomEditorTextElement[] };
+export type TextElement = { type: 'text'; children: CustomEditorTextElement[] };
 
 export type CustomEditorTextElement = {
   text?: string;
