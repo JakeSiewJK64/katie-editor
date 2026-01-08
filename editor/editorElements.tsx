@@ -103,16 +103,29 @@ function CustomImageRenderElement({
   );
 }
 
+/**
+ * A custom element renderer for the Slate.js editor that handles specialized nodes.
+ * * This component acts as a switch-case router for the Slate document model.
+ * It currently provides enhanced functionality for `'image'` type nodes,
+ * including drag-and-drop data initialization, resizing, and node removal.
+ * * @param props - The standard props passed by Slate's `renderElement` function.
+ * @param props.element - The custom Slate element being rendered.
+ * @param props.attributes - HTML attributes that must be spread onto the root element for Slate's selection to work.
+ * @param props.children - The nested content of the Slate node.
+ * * @returns A React element tailored to the node type. Defaults to a standard paragraph tag.
+ * * @example
+ * ```tsx
+ * <Slate renderElement={CustomEditorRenderElement} ... />
+ * ```
+ * * @remarks
+ * - **Image Handling**: Uses `ReactEditor.findPath` to locate the node for precise updates.
+ * - **Drag & Drop**: Injects the node index and element data into the `dataTransfer` object for external handling.
+ * - **State Management**: Uses `Transforms.setNodes` and `Transforms.removeNodes` to sync changes back to the Slate editor state.
+ */
 export function CustomEditorRenderElement(props: RenderElementProps) {
   const editor = useSlateStatic();
 
   switch (props.element.type) {
-    case 'code':
-      return (
-        <pre {...props}>
-          <code className="text-red-600">{props.children}</code>
-        </pre>
-      );
     case 'image': {
       const nodeIndex = ReactEditor.findPath(editor, props.element);
 
