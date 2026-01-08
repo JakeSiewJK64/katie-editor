@@ -43,7 +43,7 @@ export function RichTextEditor({
         }
       }}
     >
-      <Toolbar editor={editor} />
+      <Toolbar />
       <Editable
         {...props}
         className={cn('rounded border border-slate-300 p-1', props.className)}

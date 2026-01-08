@@ -8,17 +8,14 @@ import {
   LuUnderline,
   LuUndo,
 } from 'react-icons/lu';
-import { HistoryEditor } from 'slate-history';
+import { withHistory } from 'slate-history';
+import { useSlate } from 'slate-react';
 
 import { cn, CustomEditorHelper } from './utils';
 
-import type { ReactEditor } from 'slate-react';
+export function Toolbar() {
+  const editor = withHistory(useSlate());
 
-type ToolbarProps = {
-  editor: ReactEditor & HistoryEditor;
-};
-
-export function Toolbar({ editor }: ToolbarProps) {
   return (
     <div className="mb-2 flex flex-row rounded border border-slate-300 p-1">
       <button
