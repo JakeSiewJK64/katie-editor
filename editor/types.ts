@@ -4,10 +4,20 @@ import type { ReactEditor } from 'slate-react';
 declare module 'slate' {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor;
-    Element: TextElement | ImageElement;
+    Element: TextElement | ImageElement | ListItem | NumberedList;
     Text: CustomEditorTextElement;
   }
 }
+
+export type ListItem = {
+  type: 'list-item';
+  children: CustomEditorTextElement[];
+};
+
+export type NumberedList = {
+  type: 'numbered-list';
+  children: ListItem[];
+};
 
 export type ImageElement = {
   type: 'image';

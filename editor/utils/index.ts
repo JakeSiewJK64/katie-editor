@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { Editor, Transforms } from 'slate';
+import { Editor, Element, Transforms } from 'slate';
 import { twMerge } from 'tailwind-merge';
 
 import { deserialize } from './deserialize';
@@ -12,7 +12,46 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Helper to check if the list is currently active
+function isBlockActive(editor: ReactEditor, format: string) {
+  const [match] = editor.nodes({
+    match(node): node is Element {
+      if (Element.isElement(node)) {
+        return node.type === format;
+      }
+
+      return false;
+    },
+  });
+
+  return !!match;
+}
+
 export const CustomEditorHelper = {
+  isNumberedListActive(editor: ReactEditor) {
+    return isBlockActive(editor, 'numbered-list');
+  },
+  toggleNumberedList(editor: ReactEditor) {
+    const isActive = CustomEditorHelper.isNumberedListActive(editor);
+
+    // 1. Unwrap existing list containers to flatten the structure
+    Transforms.unwrapNodes(editor, {
+      match: n => Element.isElement(n) && n.type === 'numbered-list',
+      split: true,
+    });
+
+    // 2. Toggle the block type
+    // If active, turn back to 'paragraph'. If not, turn to 'list-item'.
+    // We do NOT pass 'children' here so we keep the existing text.
+    Transforms.setNodes(editor, {
+      type: isActive ? 'text' : 'list-item',
+    });
+
+    // 3. Wrap in the <ol> parent if we are enabling the list
+    if (!isActive) {
+      Transforms.wrapNodes(editor, { type: 'numbered-list', children: [] });
+    }
+  },
   isHeading1Active(editor: ReactEditor) {
     const marks = Editor.marks(editor);
     return marks ? marks.heading1 : false;

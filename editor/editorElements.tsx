@@ -129,6 +129,14 @@ export function CustomEditorRenderElement(props: RenderElementProps) {
   const editor = useSlateStatic();
 
   switch (props.element.type) {
+    case 'numbered-list':
+      return (
+        <ol {...props.attributes} className="ml-[2rem] list-decimal">
+          {props.children}
+        </ol>
+      );
+    case 'list-item':
+      return <li {...props.attributes}>{props.children}</li>;
     case 'image': {
       const nodeIndex = ReactEditor.findPath(editor, props.element);
 

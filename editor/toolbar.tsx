@@ -4,6 +4,7 @@ import {
   LuHeading1,
   LuHeading2,
   LuHeading3,
+  LuListOrdered,
   LuRedo,
   LuUnderline,
   LuUndo,
@@ -27,6 +28,16 @@ export function Toolbar() {
         onClick={() => CustomEditorHelper.toggleHeading1(editor)}
       >
         <LuHeading1 />
+      </button>
+      <button
+        title="Ordered List"
+        className={cn(
+          'cursor-pointer p-1 hover:bg-slate-300',
+          CustomEditorHelper.isNumberedListActive(editor) && 'bg-slate-300',
+        )}
+        onClick={() => CustomEditorHelper.toggleNumberedList(editor)}
+      >
+        <LuListOrdered />
       </button>
       <button
         title="Heading 2"
