@@ -12,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Helper to check if the list is currently active
+// Helper to check if a block type is currently active.
 function isBlockActive(editor: ReactEditor, format: string) {
   const [match] = editor.nodes({
     match(node): node is Element {
@@ -40,9 +40,8 @@ export const CustomEditorHelper = {
       split: true,
     });
 
-    // 2. Toggle the block type
+    // 2. Toggle the block type.
     // If active, turn back to 'paragraph'. If not, turn to 'list-item'.
-    // We do NOT pass 'children' here so we keep the existing text.
     Transforms.setNodes(editor, {
       type: isActive ? 'text' : 'list-item',
     });
